@@ -246,9 +246,11 @@ function render()
     //console.log(theta);
     if(theta > 3.149) { //it will oscillate between [0,pi), thus have 180 degree rotation both ways
         direction = false;
+        delay = 10;
     }
     if(theta < 0.0) {
         direction = true;
+        delay = 1000;
     }
 
     gl.uniform1f(thetaLoc, theta);  //passing theta to thetaLoc in vertex shader as it updates.
@@ -260,5 +262,6 @@ function render()
 	//re-render after delay
     //requestAnimFrame(render);
 	setTimeout(function (){requestAnimFrame(render);}, delay);
+    delay = 1;
 }
 

@@ -1,4 +1,6 @@
 /* Reset some default styles for better consistency across browsers */
+
+
 body, h1, h2, p, ul, li {
     margin: 0;
     padding: 0;
@@ -10,7 +12,7 @@ body {
     min-height: 100vh; /* Ensure the body takes at least the full height of the viewport */
     font-family: 'Times New Roman', sans-serif;
     line-height: 1.6;
-    background-color: #5a5151;
+    background-color: #fff;
     color: #000000;
 }
 
@@ -61,3 +63,9 @@ footer {
 a:hover {
     color: #ff6600;
 }
+
+#canvas-container {
+    display: block; /* or whatever display type you want */
+    /* other styles as needed */
+}
+
