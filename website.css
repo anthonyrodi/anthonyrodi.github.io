@@ -1,0 +1,71 @@
+/* Reset some default styles for better consistency across browsers */
+
+
+body, h1, h2, p, ul, li {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensure the body takes at least the full height of the viewport */
+    font-family: 'Times New Roman', sans-serif;
+    line-height: 1.6;
+    background-color: #fff;
+    color: #000000;
+}
+
+header {
+    background-color: #000000;
+    color: rgb(15, 235, 15);
+    text-align: center;
+    padding: 1em 0;
+}
+
+nav {
+    color: rgb(0, 204, 255);
+    background-color: #1d1d1d;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav li {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+}
+
+section {
+    padding: 20px;
+}
+
+.container {
+    flex: 1;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 1em 0;
+}
+
+/* Style links on hover */
+a:hover {
+    color: #ff6600;
+}
+
+#canvas-container {
+    display: block; /* or whatever display type you want */
+    /* other styles as needed */
+}
+

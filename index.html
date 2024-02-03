@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Basic HTML Page</title>
+    <link rel="stylesheet" href="website.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Welcome to My Website</h1>
+        </header>
+
+        <nav>
+            <h1>Anthony Rodi, Pursuing B.S.E. in Computer Systems Engineering</h1>
+        </nav>
+
+        <div id="canvas-container">
+            <!-- Vertex Shader -->
+            <script id="vertex-shader" type="x-shader/x-vertex">
+            
+                // This is GLSL code (not HTML5)
+                
+                attribute vec4 vPosition;
+                
+                //HW470: one or more uniforms to control twisting and color change
+                //uniform 
+                
+                //incoming color attribute and varying for fragment shader
+                attribute vec3 vColor;
+                varying vec4 color;
+                uniform float theta;
+                
+                
+                void
+                main()
+                {
+                    // HW470: twisty the geometry x,y coords and set z and w
+                    // Change the code below.
+                    float dd = 1.0;
+                    float s = sin(dd*theta);
+                    float c = cos(dd*theta);
+                
+                    //normalize change in theta to [0,1]
+                    float thetaInterp = clamp(theta/(3.14159),0.0,1.0);
+                
+                    gl_PointSize = 10.0;
+                
+                    // apply a rotation matrix to the input position
+                    //only applying rotation to outer hexagon
+                    if(vPosition.x > 0.6 || vPosition.x < -0.6 || vPosition.y > 0.6 || vPosition.y < -0.6)
+                    {
+                
+                        gl_Position.x =  c * vPosition.x - s * vPosition.y;
+                        gl_Position.y =  s * vPosition.x + c * vPosition.y;
+                
+                
+                        gl_Position.z = 0.0;
+                        gl_Position.w = 1.0;
+                    }
+                    else
+                    {
+                        gl_Position.x =  vPosition.x;
+                        gl_Position.y =  vPosition.y;
+                        gl_Position.z = 0.0;
+                        gl_Position.w = 1.0;
+                    }
+                    
+                    // common mistake: using integer instead of float
+                    // gl_Position.w = 1; 
+                    //     -- this would result in an error
+                    // common mistake: trying to change a uniform variable here
+                    
+                
+                    
+                    //HW470: Modify color   
+                    // colors are between 0 and 1. 
+                    // You will need to do linear interpolation
+                    // for example interpolate between current red component and 1.0 
+                    float red = vColor.r;
+                    
+                    float green = vColor.g;
+                    
+                    float blue = vColor.b;
+                
+                    
+                
+                    if(vPosition.x > 0.6 || vPosition.x < -0.6 || vPosition.y > 0.6 || vPosition.y < -0.6)
+                    {
+                
+                        //interpolation for outermost hexagon to white, with increasing intensity as it rotates
+                        //mix function interpolates values, from outside inwards thus creating an inward deformation
+                        float red = vColor.r;
+                    
+                        float green = vColor.g;
+                        
+                        float blue = vColor.b;
+                        //set the varying color for the fragment shader
+                        color = vec4(red, green, blue, 1.0);
+                        color = mix(color, vec4(2.0, 2.0, 2.0, 1.0), thetaInterp);
+                    }
+                    else
+                    {
+                        float red = vColor.r;
+                    
+                        float green = vColor.g;
+                        
+                        float blue = vColor.b;
+                        color = vec4(red, green, blue, 1.0);
+                    }
+                
+                    
+                
+                    
+                
+                }
+                </script>
+                
+                <!-- Fragment Shader -->
+                <!-- (no change to this) -->
+                
+                <script id="fragment-shader" type="x-shader/x-fragment">
+                
+                // This is GLSL code (not HTML5)
+                
+                precision mediump float;
+                
+                // Color coming in
+                varying vec4 color;
+                
+                
+                void
+                main()
+                {
+                   //pass color to fragment shader
+                    gl_FragColor = color;
+                }
+                </script>
+                
+                <!-- JS Utility codes and codes for this program -->
+                <script type="text/javascript" src="../Common/webgl-utils.js"></script>
+                <script type="text/javascript" src="../Common/initShaders.js"></script>
+                <script type="text/javascript" src="../Common/MV.js"></script>
+                <script type="text/javascript" src="twisty.js"></script>
+                </head>   
+                
+                <body>
+                <!--HW470: Add text to communicate what program does -->
+                <div style="font-family:verdana";>
+                <h1>Computer Graphics</h1>
+                
+
+                <strong>Description: </strong></br>This program is inspired by the google chrome logo. Utilizing triangular identites within a coordinate plane i created three different hexagons of different scale, where one contains the three outer chrome colors, the second is white to create a gap, and the last is blue. The outer hexagon is rotated about the origin and is interpolated to white throughout execution with an inward deformation as it fades to white. The inner two hexagons are stationary. As for the color choice, I decided to alter the typical chrome logo by having more variety of color between each triangular section. I believe it gives a cleaner look and complements the more geometric appearence created by having a hexagon shaped chrome logo rather than a circular one.
+                </br>
+                </br>
+                <strong>Dynamically Mapping color from (r,g,b) to white.</strong></br>
+                The rgb model is additive, to map the color to white I performed a linear interpolation between the current color and white, which essentially increased each respective r,g,b value. I used the mix function, where I interpolated the color with white. The one exception is I used a more 'extreme' version of white, where the rgb values exceeded the standard (1,1,1) to allow for a quicker and more dramatic interpolation. Additionally, the interpolation is scaled to increase as the image rotates. I monitored the change in theta, normalized this value to [0,1], and used this normalized variable to directly feed into the interpolation value between the color and white in the vertex shader. 
+
+                </br>
+                </div>
+                
+                <canvas id="gl-canvas" width="512" height="512" style="border:2px solid #000000;">
+                Oops ... your browser doesn't support the HTML5 canvas element
+                </canvas>
+                
+                </body>
+                
+            </div>
+        <section id="home">
+            <p>Look at this bro</p>
+            <a href="./pages/twisty.html">Home</a>
+        </section>
+
+        <section id="about">
+            <!-- ... about section content ... -->
+        </section>
+
+        <section id="contact">
+            <!-- ... contact section content ... -->
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 My Website. All rights reserved.</p>
+    </footer>
+
+</body>
+
+
+
+
+</html>
